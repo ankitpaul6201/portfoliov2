@@ -5,7 +5,6 @@
 ## Entity Identity
 - **Name:** Ankit Paul
 - **Primary Roles:** AI Engineer, Machine Learning Engineer, Full-Stack Software Developer, Quantitative Finance Researcher
-- **Current Position:** Founder & CEO at Nexovera Technologies
 - **Education:** Bachelor of Technology in Computer Science & Engineering (B.Tech CSE), Swami Vivekanand Institute of Engineering & Technology (SVIET), Chandigarh, India (Class of 2027 / 2028)
 - **Honors & Ambassadorships:** Google Student Ambassador (2026), Microsoft Student Ambassador
 - **Location:** Chandigarh, Punjab / Haryana, India

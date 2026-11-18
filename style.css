@@ -335,11 +335,15 @@ h2.section-title {
   justify-content: space-between;
   align-items: flex-start;
   gap: 40px;
-  margin-bottom: 60px;
+  margin-bottom: 0;
 }
 
 .header-text {
   flex: 1;
+}
+
+.header-text p:last-child {
+  margin-bottom: 0;
 }
 
 .name-title {
@@ -1310,7 +1314,7 @@ details li {
     justify-items: center;
     text-align: center;
     row-gap: 16px;
-    margin-bottom: 34px;
+    margin-bottom: 0;
   }
   
   .header-text {
@@ -1363,12 +1367,20 @@ details li {
     gap: 8px 12px;
   }
   
+  h2.section-title {
+    margin: 44px 0 20px;
+  }
+
   .header-text > p {
     width: 100%;
     max-width: 560px;
     justify-self: stretch;
     text-align: left;
     margin-bottom: 14px;
+  }
+
+  .header-text > p:last-of-type {
+    margin-bottom: 0;
   }
   
   .header-text > p:first-of-type {

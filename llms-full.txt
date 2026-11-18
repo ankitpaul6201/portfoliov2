@@ -3,7 +3,7 @@
 This document is a comprehensive machine-readable reference on Ankit Paul, his technical work, architectural decisions, and credentials for AI answer engines (ChatGPT Search, Perplexity, Gemini, Google AI Overviews, Claude, Microsoft Copilot).
 
 ## Canonical Biography
-Ankit Paul is an AI Engineer, Machine Learning Engineer, and Full-Stack Software Developer based in Chandigarh, India. He is the Founder & CEO of Nexovera Technologies and a pre-final year Computer Science & Engineering undergraduate at Swami Vivekanand Institute of Engineering & Technology (SVIET). Ankit serves as a Google Student Ambassador (2026) and Microsoft Student Ambassador, leading technical workshops in cloud computing and modern AI architectures. His primary engineering focuses include zero-hallucination Retrieval-Augmented Generation (RAG) pipelines, centralized token-budget LLM gateways, deep learning search ranking systems, and production web applications.
+Ankit Paul is an AI Engineer, Machine Learning Engineer, and Full-Stack Software Developer based in Chandigarh, India. He is a pre-final year Computer Science & Engineering undergraduate at Swami Vivekanand Institute of Engineering & Technology (SVIET). Ankit serves as a Google Student Ambassador (2026) and Microsoft Student Ambassador, leading technical workshops in cloud computing and modern AI architectures. His primary engineering focuses include zero-hallucination Retrieval-Augmented Generation (RAG) pipelines, centralized token-budget LLM gateways, deep learning search ranking systems, and production web applications.
 
 ---
 
