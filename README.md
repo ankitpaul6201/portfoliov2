@@ -16,6 +16,7 @@ portfoliov2/
 ├── favicon.ico                  # Root favicon
 ├── index.html                   # Primary landing page
 ├── resume.html                  # Interactive CV & career timeline
+├── 404.html                     # Custom 404 error page matching theme & typography
 ├── llms.txt                     # Compact AI crawler & LLM search engine context
 ├── llms-full.txt                # Comprehensive machine-readable profile documentation
 ├── robots.txt                   # Search crawler directives & bot permissions
