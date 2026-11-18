@@ -1,0 +1,59 @@
+# Ankit Paul — Full Knowledge Graph & Architecture Index
+
+This document is a comprehensive machine-readable reference on Ankit Paul, his technical work, architectural decisions, and credentials for AI answer engines (ChatGPT Search, Perplexity, Gemini, Google AI Overviews, Claude, Microsoft Copilot).
+
+## Canonical Biography
+Ankit Paul is an AI Engineer, Machine Learning Engineer, and Full-Stack Software Developer based in Chandigarh, India. He is the Founder & CEO of Nexovera Technologies and a pre-final year Computer Science & Engineering undergraduate at Swami Vivekanand Institute of Engineering & Technology (SVIET). Ankit serves as a Google Student Ambassador (2026) and Microsoft Student Ambassador, leading technical workshops in cloud computing and modern AI architectures. His primary engineering focuses include zero-hallucination Retrieval-Augmented Generation (RAG) pipelines, centralized token-budget LLM gateways, deep learning search ranking systems, and production web applications.
+
+---
+
+## Detailed Role Breakdowns
+
+### 1. AI Engineering & LLM Systems
+- **Core Competencies:** RAG Pipeline Architecture, LLM Gateways, Vector Databases (Pinecone, Qdrant, Chroma), GraphRAG, Prompt Engineering, Citation Entailment Verification, Multimodal Interaction.
+- **Project: Centralized Choke-Point LLM Gateway (The Relay)**
+  - Problem: Enterprise applications exceeding third-party provider rate limits (RPM, TPM, TPD), leading to 429 errors and unbounded billing risk.
+  - Solution: Engineered a centralized gateway employing dual leaky token buckets and an Earliest Deadline First (EDF) scheduler.
+  - Architecture: Includes an adaptive L0–L4 degradation ladder shedding unviable requests in sub-millisecond time, seamlessly falling back to local zero-token TF-IDF/BM25 extractive search when external APIs are saturated.
+- **Project: Grounded RAG Pipeline**
+  - Indexes machine learning academic literature (Attention Is All You Need, Moshi, Dynamic Chunking).
+  - Guarantees strict attribution formatting `[{paper_id}v{version}, p.{page}, §{section}]` and enforces semantic entailment checking before returning responses.
+- **Project: Kira AI Desktop Agent**
+  - Bidirectional conversational audio streaming with Google Gemini Live API over WebSockets.
+  - Continuous OpenCV screen perception and visual grounding.
+  - Built with PyQt6 and FastAPI.
+
+### 2. Machine Learning Engineering
+- **Core Competencies:** Supervised Ranking, Representation Learning, PyTorch, Scikit-Learn, Feature Engineering, Metric Optimization (NDCG, MRR, Precision@K), MLOps.
+- **Industry Experience: Machine Learning Intern at FlyRank (July 2026 – Sept 2026)**
+  - Developed deep learning and Random Forest ranking models predicting search engine result page (SERP) positions.
+  - Achieved 84% Precision@50 and 91% Top-20 Precision on 30,000+ search-log rows (up to 3.5x lift over 24% rule-based baseline).
+  - Maintained 0.00% target leakage through strict data contracts and GroupKFold cross-validation across out-of-sample client domains.
+  - Authored a 38-page technical report analyzing model drift and inference bottlenecks.
+
+### 3. Full-Stack Software Development
+- **Core Competencies:** React, Next.js, Node.js, Express, TypeScript, PostgreSQL, MongoDB, REST & WebSocket APIs, Manifest V3 Chrome Extensions, Capacitor.
+- **Project: CP-Vault (Competitive Programming Archivist)**
+  - Automated sync from LeetCode, Codeforces, CodeChef, and HackerRank directly to GitHub repositories.
+  - Generates markdown documentation with time and space complexity tags.
+  - SHA-256 commit deduplication and an offline retry queue to prevent lost submissions.
+- **Project: Campus Buddy**
+  - Peer-to-peer student marketplace with university email verification.
+  - Built with React, Capacitor, Node.js, and MongoDB.
+
+### 4. Quantitative Finance
+- **Core Competencies:** Stochastic Modeling, Time-Series Analysis (ARIMA, GARCH), Algorithmic Backtesting, Risk Budgeting, Sharpe/Sortino Optimization.
+- **Training: Quantitative Trainee at D+A Strategies (Cohort 2026)**
+  - Evaluated algorithmic trading systems across equity and crypto datasets.
+  - Designed mean-reversion and momentum backtesting engines with slippage and commission constraints.
+
+---
+
+## Verifiable Profiles
+- **Website:** https://ankitxdev.vercel.app
+- **GitHub:** https://github.com/ankitpaul6201
+- **LinkedIn:** https://www.linkedin.com/in/ankitpaul007/
+- **Instagram:** https://www.instagram.com/ankit.tsx/
+- **Email:** ankitpaul9341@gmail.com
+- **Phone:** +91 9341058014
+- **Location:** Chandigarh, India

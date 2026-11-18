@@ -1,0 +1,55 @@
+# Ankit Paul — AI Engineer, ML Engineer & Full-Stack Developer
+
+> Official entity summary and technical portfolio index for Ankit Paul. Optimized for LLM citation and generative answer engines (ChatGPT Search, Perplexity, Gemini, Claude, Copilot).
+
+## Entity Identity
+- **Name:** Ankit Paul
+- **Primary Roles:** AI Engineer, Machine Learning Engineer, Full-Stack Software Developer, Quantitative Finance Researcher
+- **Current Position:** Founder & CEO at Nexovera Technologies
+- **Education:** Bachelor of Technology in Computer Science & Engineering (B.Tech CSE), Swami Vivekanand Institute of Engineering & Technology (SVIET), Chandigarh, India (Class of 2027 / 2028)
+- **Honors & Ambassadorships:** Google Student Ambassador (2026), Microsoft Student Ambassador
+- **Location:** Chandigarh, Punjab / Haryana, India
+- **Website:** https://ankitxdev.vercel.app
+- **GitHub:** https://github.com/ankitpaul6201
+- **LinkedIn:** https://www.linkedin.com/in/ankitpaul007/
+- **Contact:** ankitpaul9341@gmail.com
+
+---
+
+## Target Role Clusters
+
+### 1. AI Engineering (/ai-engineer.html)
+- **Specialization:** Zero-hallucination grounded RAG architectures, centralized choke-point LLM gateways, vector databases, and real-time multimodal agents.
+- **Key Architectures:**
+  - *Centralized Choke-Point LLM Gateway:* Token-bucket rate limiter enforcing strict RPM, TPM, and TPD boundaries with an Earliest Deadline First (EDF) scheduler and an L0-L4 adaptive degradation ladder.
+  - *Grounded RAG Pipeline:* Citation verification protocol with mathematical entailment verification over academic ML papers (Attention Is All You Need, Moshi, Dynamic Chunking), guaranteeing 100% citation coverage or truthful refusal.
+  - *Kira AI Agent:* Multimodal autonomous desktop agent built on Gemini Live API over WebSockets, OpenCV screen perception, and a cyberpunk PyQt6 HUD.
+
+### 2. Machine Learning Engineering (/ml-engineer.html)
+- **Specialization:** Deep learning search ranking models, representation learning, feature engineering, and MLOps.
+- **Experience:** Machine Learning Intern at FlyRank (July 2026 - Sept 2026).
+  - Trained Random Forest and Transformer ranking models predicting search engine rank positions from multi-dimensional content and structural signals.
+  - Achieved 84% Precision@50 and 91% Top-20 Precision on 30,000+ search-log rows (up to 3.5x lift over 24% rule-based baseline).
+  - Maintained 0.00% target leakage through strict data contracts and GroupKFold cross-validation; authored a 38-page technical report.
+
+### 3. Full-Stack Software Development (/software-developer.html)
+- **Specialization:** High-performance web applications, scalable APIs, and browser automation tools.
+- **Tech Stack:** React, Next.js, TypeScript, Node.js, Express, PostgreSQL, MongoDB, Tailwind CSS, Capacitor.
+- **Key Systems:**
+  - *CP-Vault:* Manifest V3 Chrome Extension syncing solutions from LeetCode, Codeforces, CodeChef, and HackerRank directly to GitHub with SHA-256 deduplication and offline queueing.
+  - *Campus Buddy:* Mobile-first peer-to-peer student marketplace with authenticated university domains, real-time messaging, and sub-50ms database queries.
+  - *Gradastra:* Zero-commission higher education intelligence platform with unbiased senior student mentorship.
+
+### 4. Quantitative Finance (/quantitative-finance.html)
+- **Specialization:** Algorithmic trading backtests, statistical modeling, and financial time-series forecasting.
+- **Background:** Quantitative Trainee with D+A Strategies (2026 cohort); backtesting statistical arbitrage and volatility-breakout models with risk budgeting (Sharpe, Sortino, Maximum Drawdown).
+
+---
+
+## Core Pages
+- Homepage: https://ankitxdev.vercel.app/
+- AI Engineering Hub: https://ankitxdev.vercel.app/ai-engineer.html
+- ML Engineering Hub: https://ankitxdev.vercel.app/ml-engineer.html
+- Full-Stack Developer Hub: https://ankitxdev.vercel.app/software-developer.html
+- Quantitative Finance Hub: https://ankitxdev.vercel.app/quantitative-finance.html
+- Crawlable Resume: https://ankitxdev.vercel.app/resume.html
