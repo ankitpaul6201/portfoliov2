@@ -338,4 +338,37 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }, { passive: true });
+
+  // 7. DIRECT RESUME PDF DOWNLOAD (Forces direct download without opening browser PDF viewer)
+  const resumeDownloadBtn = document.querySelector(".resume-download-btn");
+  if (resumeDownloadBtn) {
+    resumeDownloadBtn.addEventListener("click", async (e) => {
+      const href = resumeDownloadBtn.getAttribute("href");
+      if (!href) return;
+
+      e.preventDefault();
+      try {
+        const response = await fetch(href);
+        if (!response.ok) throw new Error("Fetch failed");
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const tempLink = document.createElement("a");
+        tempLink.style.display = "none";
+        tempLink.href = blobUrl;
+        tempLink.setAttribute("download", resumeDownloadBtn.getAttribute("download") || "Ankit_Paul_Resume.pdf");
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        tempLink.remove();
+        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1500);
+      } catch (err) {
+        // Fallback: standard anchor download
+        const tempLink = document.createElement("a");
+        tempLink.href = href;
+        tempLink.setAttribute("download", resumeDownloadBtn.getAttribute("download") || "Ankit_Paul_Resume.pdf");
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        tempLink.remove();
+      }
+    });
+  }
 });
