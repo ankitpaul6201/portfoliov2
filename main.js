@@ -1,7 +1,41 @@
 /**
  * Portfolio v2 - Vanilla ES6+ Interactive Script
  * High performance, zero dependencies.
+ * Hardened for Security & Robustness.
  */
+
+// Safe Web Storage helpers resilient to SecurityError in sandboxed/private browsing
+const safeStorage = {
+  get: (storageType, key) => {
+    try {
+      const storage = storageType === "session" ? window.sessionStorage : window.localStorage;
+      return storage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  },
+  set: (storageType, key, val) => {
+    try {
+      const storage = storageType === "session" ? window.sessionStorage : window.localStorage;
+      storage.setItem(key, String(val));
+    } catch (e) {
+      // Storage unavailable, partitioned, or quota exceeded
+    }
+  }
+};
+
+// URL validation for dynamic media previews (prevents javascript: / vbscript: execution)
+const isSafeImageUrl = (url) => {
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (/^(?:javascript|vbscript):/i.test(trimmed)) return false;
+  return /^(?:assets\/|\.\/|\/|https:\/\/|data:image\/)/i.test(trimmed);
+};
+
+// Target ID validation for DOM lookups (prevents CSS Selector Injection / unhandled DOMExceptions)
+const isValidDomId = (id) => {
+  return typeof id === "string" && /^[a-zA-Z0-9_\-]+$/.test(id);
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   // 1. LIGHTBOX MODAL SETUP
@@ -24,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxClose = lightbox.querySelector(".image-lightbox-close");
 
   const openLightbox = (src, captionText) => {
+    if (!isSafeImageUrl(src)) return;
     lightboxImg.src = src;
     lightboxCaption.textContent = captionText || "";
     lightbox.classList.add("is-open");
@@ -63,19 +98,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. NAVIGATION HORIZONTAL SCROLL PERSISTENCE (Keeps position on mobile)
   const navLinksContainer = document.querySelector(".site-nav-links");
   if (navLinksContainer) {
-    const savedNavScroll = sessionStorage.getItem("nav_scroll_x");
+    const savedNavScroll = safeStorage.get("session", "nav_scroll_x");
     if (savedNavScroll !== null) {
-      navLinksContainer.scrollLeft = parseFloat(savedNavScroll);
+      const parsedX = parseFloat(savedNavScroll);
+      if (Number.isFinite(parsedX)) {
+        navLinksContainer.scrollLeft = parsedX;
+      }
     }
 
     navLinksContainer.addEventListener("scroll", () => {
-      sessionStorage.setItem("nav_scroll_x", navLinksContainer.scrollLeft);
+      safeStorage.set("session", "nav_scroll_x", navLinksContainer.scrollLeft);
     }, { passive: true });
 
     navLinksContainer.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         const curX = navLinksContainer.scrollLeft;
-        sessionStorage.setItem("nav_scroll_x", curX);
+        safeStorage.set("session", "nav_scroll_x", curX);
         requestAnimationFrame(() => {
           navLinksContainer.scrollLeft = curX;
         });
@@ -89,14 +127,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. SMOOTH SCROLLING & HASH JUMP WITH ACCORDION AUTO-OPEN
   const handleAnchorClick = (e, link) => {
     const href = link.getAttribute("href");
-    if (!href || !href.startsWith("#")) return;
+    if (!href || !href.startsWith("#") || href === "#") return;
 
-    const navScrollX = navLinksContainer ? navLinksContainer.scrollLeft : 0;
+    const targetId = href.slice(1);
+    if (!isValidDomId(targetId)) return;
 
-    const targetEl = document.querySelector(href);
+    const targetEl = document.getElementById(targetId);
     if (!targetEl) return;
 
     e.preventDefault();
+    const navScrollX = navLinksContainer ? navLinksContainer.scrollLeft : 0;
     const navOffset = 52;
     const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - navOffset;
 
@@ -136,21 +176,29 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", e => handleAnchorClick(e, link));
   });
 
-  // On page load with hash, auto open relevant section
-  if (window.location.hash) {
-    const hashEl = document.querySelector(window.location.hash);
-    if (hashEl) {
-      setTimeout(() => {
-        const accordion = hashEl.querySelector("details") || hashEl.closest(".smooth-details");
-        if (accordion) accordion.open = true;
-      }, 300);
+  // On page load with hash, safely auto open relevant section (hardened against DOM exception injection)
+  if (window.location.hash && window.location.hash.length > 1) {
+    const rawHash = window.location.hash.slice(1);
+    if (isValidDomId(rawHash)) {
+      try {
+        const hashEl = document.getElementById(rawHash);
+        if (hashEl) {
+          setTimeout(() => {
+            const accordion = hashEl.querySelector("details") || hashEl.closest(".smooth-details");
+            if (accordion) accordion.open = true;
+          }, 300);
+        }
+      } catch (e) {
+        // Suppress unexpected DOM query failure
+      }
     }
   }
 
-  // 3. GALLERY SHOW MORE / SHOW LESS TOGGLE
+  // 4. GALLERY SHOW MORE / SHOW LESS TOGGLE
   document.querySelectorAll(".gallery-show-more-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
+      if (!isValidDomId(targetId)) return;
       const targetContainer = document.getElementById(targetId);
       if (!targetContainer) return;
 
@@ -170,23 +218,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 4. CIRCULAR WATER-RIPPLE THEME TOGGLE (LIGHT / DARK)
+  // 5. CIRCULAR WATER-RIPPLE THEME TOGGLE (LIGHT / DARK)
   const themeToggleBtn = document.getElementById("theme-toggle");
-  const storedTheme = localStorage.getItem("preferred-theme");
+  const storedTheme = safeStorage.get("local", "preferred-theme");
 
   const applyThemeState = (theme) => {
-    if (theme === "dark") {
+    const safeTheme = theme === "dark" ? "dark" : "light";
+    if (safeTheme === "dark") {
       document.documentElement.setAttribute("data-theme", "dark");
       if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to light mode");
     } else {
       document.documentElement.removeAttribute("data-theme");
       if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to dark mode");
     }
-    localStorage.setItem("preferred-theme", theme);
+    safeStorage.set("local", "preferred-theme", safeTheme);
   };
 
   // Initialize theme without animation on load
-  if (storedTheme) {
+  if (storedTheme === "dark" || storedTheme === "light") {
     applyThemeState(storedTheme);
   } else {
     applyThemeState("light");
@@ -264,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
     themeToggleBtn.addEventListener("click", triggerCircularThemeTransition);
   }
 
-  // 5. SCROLLSPY (Highlight active nav link while scrolling)
+  // 6. SCROLLSPY (Highlight active nav link while scrolling)
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll(".site-nav a[href^='#']");
 
