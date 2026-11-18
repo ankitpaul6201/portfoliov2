@@ -342,33 +342,65 @@ document.addEventListener("DOMContentLoaded", () => {
   // 7. DIRECT RESUME PDF DOWNLOAD (Forces direct download without opening browser PDF viewer)
   const resumeDownloadBtn = document.querySelector(".resume-download-btn");
   if (resumeDownloadBtn) {
-    resumeDownloadBtn.addEventListener("click", async (e) => {
-      const href = resumeDownloadBtn.getAttribute("href");
-      if (!href) return;
-
-      e.preventDefault();
+    const triggerOctetDownload = (b64Data) => {
       try {
-        const response = await fetch(href);
-        if (!response.ok) throw new Error("Fetch failed");
-        const blob = await response.blob();
+        const byteCharacters = atob(b64Data);
+        const byteNumbers = new Uint8Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        // Using application/octet-stream ensures browser PDF viewer never intercepts the stream
+        const blob = new Blob([byteNumbers], { type: "application/octet-stream" });
         const blobUrl = window.URL.createObjectURL(blob);
         const tempLink = document.createElement("a");
         tempLink.style.display = "none";
         tempLink.href = blobUrl;
-        tempLink.setAttribute("download", resumeDownloadBtn.getAttribute("download") || "Ankit_Paul_Resume.pdf");
+        tempLink.setAttribute("download", "Ankit_Paul_Resume.pdf");
         document.body.appendChild(tempLink);
         tempLink.click();
         tempLink.remove();
-        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1500);
+        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+        return true;
       } catch (err) {
-        // Fallback: standard anchor download
-        const tempLink = document.createElement("a");
-        tempLink.href = href;
-        tempLink.setAttribute("download", resumeDownloadBtn.getAttribute("download") || "Ankit_Paul_Resume.pdf");
-        document.body.appendChild(tempLink);
-        tempLink.click();
-        tempLink.remove();
+        return false;
       }
+    };
+
+    resumeDownloadBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // 1. Primary method: Instant in-memory octet-stream download (works on file://, http://, https://)
+      if (window.RESUME_PDF_BASE64) {
+        if (triggerOctetDownload(window.RESUME_PDF_BASE64)) return;
+      }
+
+      // 2. Fetch method with octet-stream blob wrapping
+      fetch("assets/Ankit_Paul_Resume.pdf")
+        .then(res => {
+          if (!res.ok) throw new Error("Fetch failed");
+          return res.blob();
+        })
+        .then(blob => {
+          const octetBlob = new Blob([blob], { type: "application/octet-stream" });
+          const blobUrl = window.URL.createObjectURL(octetBlob);
+          const tempLink = document.createElement("a");
+          tempLink.style.display = "none";
+          tempLink.href = blobUrl;
+          tempLink.setAttribute("download", "Ankit_Paul_Resume.pdf");
+          document.body.appendChild(tempLink);
+          tempLink.click();
+          tempLink.remove();
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+        })
+        .catch(() => {
+          // 3. Fallback: generic anchor download
+          const tempLink = document.createElement("a");
+          tempLink.href = "assets/Ankit_Paul_Resume.pdf";
+          tempLink.setAttribute("download", "Ankit_Paul_Resume.pdf");
+          document.body.appendChild(tempLink);
+          tempLink.click();
+          tempLink.remove();
+        });
     });
   }
 });
