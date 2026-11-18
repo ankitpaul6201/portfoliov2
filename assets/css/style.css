@@ -1631,8 +1631,8 @@ details li {
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 58vh;
-  padding: 60px 20px;
+  min-height: 82vh;
+  padding: 40px 20px;
 }
 
 .error-badge {
