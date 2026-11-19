@@ -72,22 +72,47 @@ document.addEventListener("DOMContentLoaded", () => {
   let startX = 0;
   let startY = 0;
 
+  const getPanBounds = () => {
+    const imgWidth = lightboxImg.offsetWidth || lightboxImg.naturalWidth || 0;
+    const imgHeight = lightboxImg.offsetHeight || lightboxImg.naturalHeight || 0;
+    const vpWidth = lightboxViewport.clientWidth || 0;
+    const vpHeight = lightboxViewport.clientHeight || 0;
+
+    const scaledWidth = imgWidth * zoomLevel;
+    const scaledHeight = imgHeight * zoomLevel;
+
+    const maxPanX = scaledWidth > vpWidth ? (scaledWidth - vpWidth) / 2 : 0;
+    const maxPanY = scaledHeight > vpHeight ? (scaledHeight - vpHeight) / 2 : 0;
+
+    return { maxPanX, maxPanY };
+  };
+
+  const clampPan = (x, y) => {
+    const { maxPanX, maxPanY } = getPanBounds();
+    const clampedX = maxPanX > 0 ? Math.min(maxPanX, Math.max(-maxPanX, x)) : 0;
+    const clampedY = maxPanY > 0 ? Math.min(maxPanY, Math.max(-maxPanY, y)) : 0;
+    return { x: clampedX, y: clampedY };
+  };
+
   const updateTransform = () => {
     lightboxImg.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${zoomLevel})`;
-    if (zoomLevel > 1) {
+    const { maxPanX, maxPanY } = getPanBounds();
+    if (zoomLevel > 1 && (maxPanX > 0 || maxPanY > 0)) {
       lightboxViewport.classList.add("is-zoomed");
     } else {
       lightboxViewport.classList.remove("is-zoomed");
-      panX = 0;
-      panY = 0;
     }
   };
 
   const setZoom = (newZoom) => {
     zoomLevel = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(newZoom * 100) / 100));
-    if (zoomLevel === 1) {
+    if (zoomLevel <= 1) {
       panX = 0;
       panY = 0;
+    } else {
+      const clamped = clampPan(panX, panY);
+      panX = clamped.x;
+      panY = clamped.y;
     }
     updateTransform();
   };
@@ -118,9 +143,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Drag to pan when zoomed
+  // Drag to pan when zoomed within strict viewport boundaries
   lightboxViewport.addEventListener("mousedown", (e) => {
     if (zoomLevel <= 1 || e.button !== 0) return;
+    const { maxPanX, maxPanY } = getPanBounds();
+    if (maxPanX <= 0 && maxPanY <= 0) return;
     isDragging = true;
     startX = e.clientX - panX;
     startY = e.clientY - panY;
@@ -130,8 +157,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("mousemove", (e) => {
     if (!isDragging || zoomLevel <= 1) return;
-    panX = e.clientX - startX;
-    panY = e.clientY - startY;
+    const rawX = e.clientX - startX;
+    const rawY = e.clientY - startY;
+    const clamped = clampPan(rawX, rawY);
+    panX = clamped.x;
+    panY = clamped.y;
     updateTransform();
   });
 
@@ -142,11 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Touch support for drag-to-pan
+  // Touch support for drag-to-pan within boundaries
   let touchStartX = 0;
   let touchStartY = 0;
   lightboxViewport.addEventListener("touchstart", (e) => {
     if (zoomLevel <= 1 || e.touches.length !== 1) return;
+    const { maxPanX, maxPanY } = getPanBounds();
+    if (maxPanX <= 0 && maxPanY <= 0) return;
     isDragging = true;
     touchStartX = e.touches[0].clientX - panX;
     touchStartY = e.touches[0].clientY - panY;
@@ -155,14 +187,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   lightboxViewport.addEventListener("touchmove", (e) => {
     if (!isDragging || zoomLevel <= 1 || e.touches.length !== 1) return;
-    panX = e.touches[0].clientX - touchStartX;
-    panY = e.touches[0].clientY - touchStartY;
+    const rawX = e.touches[0].clientX - touchStartX;
+    const rawY = e.touches[0].clientY - touchStartY;
+    const clamped = clampPan(rawX, rawY);
+    panX = clamped.x;
+    panY = clamped.y;
     updateTransform();
   }, { passive: true });
 
   lightboxViewport.addEventListener("touchend", () => {
     isDragging = false;
     lightboxImg.classList.remove("is-dragging");
+  });
+
+  window.addEventListener("resize", () => {
+    if (lightbox.classList.contains("is-open") && zoomLevel > 1) {
+      const clamped = clampPan(panX, panY);
+      panX = clamped.x;
+      panY = clamped.y;
+      updateTransform();
+    }
   });
 
   const openLightbox = (src, captionText) => {
