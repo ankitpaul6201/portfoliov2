@@ -46,27 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
   lightbox.setAttribute("aria-label", "Image preview");
   lightbox.innerHTML = `
     <div class="image-lightbox-controls">
-      <button type="button" class="image-lightbox-btn lightbox-zoom-in" aria-label="Zoom in">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          <line x1="11" y1="8" x2="11" y2="14"></line>
-          <line x1="8" y1="11" x2="14" y2="11"></line>
-        </svg>
-      </button>
-      <button type="button" class="image-lightbox-btn lightbox-zoom-out" aria-label="Zoom out">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          <line x1="8" y1="11" x2="14" y2="11"></line>
-        </svg>
-      </button>
-      <button type="button" class="image-lightbox-btn lightbox-zoom-reset" aria-label="Reset zoom">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-          <polyline points="3 3 3 8 8 8"></polyline>
-        </svg>
-      </button>
       <button type="button" class="image-lightbox-btn image-lightbox-close" aria-label="Close image viewer">&times;</button>
     </div>
     <div class="image-lightbox-inner">
@@ -82,9 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxViewport = lightbox.querySelector(".image-lightbox-viewport");
   const lightboxCaption = lightbox.querySelector(".image-lightbox-caption");
   const lightboxClose = lightbox.querySelector(".image-lightbox-close");
-  const zoomInBtn = lightbox.querySelector(".lightbox-zoom-in");
-  const zoomOutBtn = lightbox.querySelector(".lightbox-zoom-out");
-  const zoomResetBtn = lightbox.querySelector(".lightbox-zoom-reset");
 
   let zoomLevel = 1;
   const MIN_ZOOM = 1;
@@ -124,22 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
     lightboxImg.classList.remove("is-dragging");
     updateTransform();
   };
-
-  // Zoom controls
-  zoomInBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setZoom(zoomLevel + ZOOM_STEP);
-  });
-
-  zoomOutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setZoom(zoomLevel - ZOOM_STEP);
-  });
-
-  zoomResetBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    resetZoom();
-  });
 
   // Wheel zoom
   lightboxViewport.addEventListener("wheel", (e) => {
