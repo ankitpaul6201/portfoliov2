@@ -1,6 +1,6 @@
 # Security Policy & Vulnerability Disclosure
 
-This document outlines the security policies, vulnerability reporting procedures, and production hardening standards for **Portfolio v2** (`https://ankitxdev.vercel.app`).
+This document outlines the security policies, vulnerability reporting procedures, and production hardening standards for **Portfolio v2** (`https://ankitpaulportfoliov2.vercel.app`).
 
 ---
 
@@ -57,6 +57,6 @@ When deploying to Vercel, Netlify, Cloudflare Pages, or an NGINX/Apache origin, 
 ## 3. Contact & Attribution
 
 - **Maintainer:** Ankit Paul
-- **Website:** [ankitxdev.vercel.app](https://ankitxdev.vercel.app)
+- **Website:** [ankitpaulportfoliov2.vercel.app](https://ankitpaulportfoliov2.vercel.app)
 - **GitHub:** [@ankitpaul6201](https://github.com/ankitpaul6201)
 - **LinkedIn:** [ankitpaul007](https://www.linkedin.com/in/ankitpaul007/)

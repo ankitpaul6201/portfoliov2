@@ -1089,6 +1089,10 @@ details li {
    GALLERY SECTION
    ========================================================================== */
 
+#gallery {
+  margin-bottom: 24px;
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1132,7 +1136,8 @@ details li {
 }
 
 .gallery-show-more-wrap {
-  margin-top: 16px;
+  margin-top: 18px;
+  margin-bottom: 36px;
   display: flex;
   justify-content: center;
 }
@@ -1232,8 +1237,8 @@ details li {
 
 .site-footer {
   margin-top: auto;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  padding-top: 28px;
+  padding-bottom: 28px;
   margin-bottom: 0;
   border-top: 1px solid var(--color-border);
   font-size: 13px;
@@ -1533,7 +1538,7 @@ details li {
 
 .resume-main-section {
   margin-top: 20px;
-  margin-bottom: 0;
+  margin-bottom: 24px;
   flex: 1 0 auto;
   animation: resumeFadeSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -1590,6 +1595,7 @@ details li {
   background-color: #ffffff;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.25s ease;
+  margin-bottom: 40px;
 }
 
 .resume-viewer-wrap:hover {
@@ -1605,7 +1611,7 @@ details li {
 @media (max-width: 700px) {
   .resume-main-section {
     margin-top: 10px;
-    margin-bottom: 0;
+    margin-bottom: 20px;
   }
   
   .resume-title {

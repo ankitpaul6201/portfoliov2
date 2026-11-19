@@ -2,7 +2,7 @@
 
 [![Security Audit](https://img.shields.io/badge/Security-Hardened-success)](docs/SECURITY_AUDIT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Deployment](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://ankitxdev.vercel.app)
+[![Deployment](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://ankitpaulportfoliov2.vercel.app)
 
 Modern, performant, and security-hardened personal portfolio engineering platform designed with Apple-inspired minimalist aesthetics (SF Pro typography), Google XYZ quantifiable impact metrics, Generative Engine Optimization (GEO), and enterprise-grade HTTP security.
 

@@ -14,5 +14,5 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 Allow: /
 
-Host: https://ankitxdev.vercel.app
-Sitemap: https://ankitxdev.vercel.app/sitemap.xml
+Host: https://ankitpaulportfoliov2.vercel.app
+Sitemap: https://ankitpaulportfoliov2.vercel.app/sitemap.xml

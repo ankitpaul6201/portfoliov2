@@ -1,6 +1,6 @@
 # Application Security Audit & Hardening Report
 
-**Target:** Portfolio v2 (`https://ankitxdev.vercel.app`)  
+**Target:** Portfolio v2 (`https://ankitpaulportfoliov2.vercel.app`)  
 **Repository Branch:** `security/hardening`  
 **Audit Date:** November 2026  
 **Auditor:** Principal Application Security Engineer & Penetration Tester  

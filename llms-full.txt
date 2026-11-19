@@ -50,10 +50,10 @@ Ankit Paul is an AI Engineer, Machine Learning Engineer, and Full-Stack Software
 ---
 
 ## Verifiable Profiles
-- **Website:** https://ankitxdev.vercel.app
+- **Website:** https://ankitpaulportfoliov2.vercel.app
 - **GitHub:** https://github.com/ankitpaul6201
 - **LinkedIn:** https://www.linkedin.com/in/ankitpaul007/
-- **Instagram:** https://www.instagram.com/ankit.tsx/
+- **Instagram:** https://www.instagram.com/ankit.lenz/
 - **Email:** ankitpaul9341@gmail.com
 - **Phone:** +91 9341058014
 - **Location:** Chandigarh, India

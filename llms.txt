@@ -8,7 +8,7 @@
 - **Education:** Bachelor of Technology in Computer Science & Engineering (B.Tech CSE), Chandigarh, India (Class of 2027 / 2028)
 - **Honors & Ambassadorships:** Google Student Ambassador (2026), Microsoft Student Ambassador
 - **Location:** Chandigarh, Punjab / Haryana, India
-- **Website:** https://ankitxdev.vercel.app
+- **Website:** https://ankitpaulportfoliov2.vercel.app
 - **GitHub:** https://github.com/ankitpaul6201
 - **LinkedIn:** https://www.linkedin.com/in/ankitpaul007/
 - **Contact:** ankitpaul9341@gmail.com
@@ -46,5 +46,5 @@
 ---
 
 ## Core Pages
-- Homepage: https://ankitxdev.vercel.app/
-- Crawlable Resume: https://ankitxdev.vercel.app/resume.html
+- Homepage: https://ankitpaulportfoliov2.vercel.app/
+- Crawlable Resume: https://ankitpaulportfoliov2.vercel.app/resume.html
