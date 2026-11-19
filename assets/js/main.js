@@ -38,27 +38,176 @@ const isValidDomId = (id) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. LIGHTBOX MODAL SETUP
+  // 1. LIGHTBOX MODAL SETUP WITH ZOOM & PAN
   const lightbox = document.createElement("div");
   lightbox.className = "image-lightbox";
   lightbox.setAttribute("role", "dialog");
   lightbox.setAttribute("aria-modal", "true");
   lightbox.setAttribute("aria-label", "Image preview");
   lightbox.innerHTML = `
-    <button class="image-lightbox-close" aria-label="Close image viewer">&times;</button>
+    <div class="image-lightbox-controls">
+      <button type="button" class="image-lightbox-btn lightbox-zoom-in" aria-label="Zoom in">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </button>
+      <button type="button" class="image-lightbox-btn lightbox-zoom-out" aria-label="Zoom out">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </button>
+      <button type="button" class="image-lightbox-btn lightbox-zoom-reset" aria-label="Reset zoom">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <polyline points="3 3 3 8 8 8"></polyline>
+        </svg>
+      </button>
+      <button type="button" class="image-lightbox-btn image-lightbox-close" aria-label="Close image viewer">&times;</button>
+    </div>
     <div class="image-lightbox-inner">
-      <img src="" alt="Expanded view">
+      <div class="image-lightbox-viewport">
+        <img src="" alt="Expanded view">
+      </div>
       <div class="image-lightbox-caption"></div>
     </div>
   `;
   document.body.appendChild(lightbox);
 
   const lightboxImg = lightbox.querySelector("img");
+  const lightboxViewport = lightbox.querySelector(".image-lightbox-viewport");
   const lightboxCaption = lightbox.querySelector(".image-lightbox-caption");
   const lightboxClose = lightbox.querySelector(".image-lightbox-close");
+  const zoomInBtn = lightbox.querySelector(".lightbox-zoom-in");
+  const zoomOutBtn = lightbox.querySelector(".lightbox-zoom-out");
+  const zoomResetBtn = lightbox.querySelector(".lightbox-zoom-reset");
+
+  let zoomLevel = 1;
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 4;
+  const ZOOM_STEP = 0.4;
+  let panX = 0;
+  let panY = 0;
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+
+  const updateTransform = () => {
+    lightboxImg.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${zoomLevel})`;
+    if (zoomLevel > 1) {
+      lightboxViewport.classList.add("is-zoomed");
+    } else {
+      lightboxViewport.classList.remove("is-zoomed");
+      panX = 0;
+      panY = 0;
+    }
+  };
+
+  const setZoom = (newZoom) => {
+    zoomLevel = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(newZoom * 100) / 100));
+    if (zoomLevel === 1) {
+      panX = 0;
+      panY = 0;
+    }
+    updateTransform();
+  };
+
+  const resetZoom = () => {
+    zoomLevel = 1;
+    panX = 0;
+    panY = 0;
+    isDragging = false;
+    lightboxImg.classList.remove("is-dragging");
+    updateTransform();
+  };
+
+  // Zoom controls
+  zoomInBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setZoom(zoomLevel + ZOOM_STEP);
+  });
+
+  zoomOutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setZoom(zoomLevel - ZOOM_STEP);
+  });
+
+  zoomResetBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    resetZoom();
+  });
+
+  // Wheel zoom
+  lightboxViewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+    setZoom(zoomLevel + delta);
+  }, { passive: false });
+
+  // Double click to toggle zoom
+  lightboxImg.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    if (zoomLevel > 1) {
+      resetZoom();
+    } else {
+      setZoom(2.2);
+    }
+  });
+
+  // Drag to pan when zoomed
+  lightboxViewport.addEventListener("mousedown", (e) => {
+    if (zoomLevel <= 1 || e.button !== 0) return;
+    isDragging = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+    lightboxImg.classList.add("is-dragging");
+    e.preventDefault();
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging || zoomLevel <= 1) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    updateTransform();
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (isDragging) {
+      isDragging = false;
+      lightboxImg.classList.remove("is-dragging");
+    }
+  });
+
+  // Touch support for drag-to-pan
+  let touchStartX = 0;
+  let touchStartY = 0;
+  lightboxViewport.addEventListener("touchstart", (e) => {
+    if (zoomLevel <= 1 || e.touches.length !== 1) return;
+    isDragging = true;
+    touchStartX = e.touches[0].clientX - panX;
+    touchStartY = e.touches[0].clientY - panY;
+    lightboxImg.classList.add("is-dragging");
+  }, { passive: true });
+
+  lightboxViewport.addEventListener("touchmove", (e) => {
+    if (!isDragging || zoomLevel <= 1 || e.touches.length !== 1) return;
+    panX = e.touches[0].clientX - touchStartX;
+    panY = e.touches[0].clientY - touchStartY;
+    updateTransform();
+  }, { passive: true });
+
+  lightboxViewport.addEventListener("touchend", () => {
+    isDragging = false;
+    lightboxImg.classList.remove("is-dragging");
+  });
 
   const openLightbox = (src, captionText) => {
     if (!isSafeImageUrl(src)) return;
+    resetZoom();
     lightboxImg.src = src;
     lightboxCaption.textContent = captionText || "";
     lightbox.classList.add("is-open");
@@ -66,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const closeLightbox = () => {
+    resetZoom();
     lightbox.classList.remove("is-open");
     lightboxImg.removeAttribute("src");
     lightboxCaption.textContent = "";
@@ -82,7 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   lightbox.addEventListener("click", e => {
-    if (e.target === lightbox || e.target.classList.contains("image-lightbox-inner")) {
+    if (isDragging) return;
+    if (e.target === lightbox || e.target === lightboxViewport || e.target.classList.contains("image-lightbox-inner")) {
       closeLightbox();
     }
   });
