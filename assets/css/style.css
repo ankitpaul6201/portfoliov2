@@ -133,7 +133,7 @@ body {
 }
 
 .container {
-  max-width: 940px;
+  max-width: 980px;
   margin: 60px auto 0;
   padding: 0 24px;
   min-height: calc(100vh - 60px);
@@ -1203,7 +1203,7 @@ details li {
   color: #e4e4e7;
   text-align: center;
   line-height: 1.4;
-  max-width: min(90vw, 940px);
+  max-width: min(90vw, 980px);
 }
 
 .image-lightbox-close {
