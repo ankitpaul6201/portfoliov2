@@ -1114,6 +1114,19 @@ details li {
   margin-bottom: 24px;
 }
 
+.gallery-empty-state {
+  margin: 6px 0 40px;
+}
+
+.gallery-empty-text {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--color-subtext);
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
